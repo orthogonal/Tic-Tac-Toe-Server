@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tic Tac Toe</title>
+		<script src="http://js.pusher.com/1.12/pusher.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script>
+			var pusher = new Pusher('b2bd0e118a8aeeb0ab8a');
+			var channel = pusher.subscribe('tictactoe');
+			channel.bind('move', function(data) {
+				console.log(data["message"]);
+			});
+			$(document).ready(function(){
+				$.get("system.php", function(data){});
+				$.post("newuser.php", {"username": "testusername"}, function(data){alert(data)});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Tic Tac Toe</h1>
+		<table id="board">
+			<tr id="row1" class="row">
+				<td id="box1" class="box"></td>
+				<td id="box2" class="box"></td>
+				<td id="box3" class="box"></td>
+			</tr><tr id="row2" class="row">
+				<td id="box4" class="box"></td>
+				<td id="box5" class="box"></td>
+				<td id="box6" class="box"></td>
+			</tr><tr id="row3" class="row">
+				<td id="box7" class="box"></td>
+				<td id="box8" class="box"></td>
+				<td id="box9" class="box"></td>
+			</tr>
+		</table>
+	</body>
+</html>
