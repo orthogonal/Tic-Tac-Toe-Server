@@ -2,17 +2,27 @@
 <html>
 	<head>
 		<title>Tic Tac Toe</title>
+		<link rel="stylesheet" type="text/css" href="main.css" />
 		<script src="http://js.pusher.com/1.12/pusher.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script>
 			var pusher = new Pusher('b2bd0e118a8aeeb0ab8a');
 			var channel = pusher.subscribe('tictactoe');
 			channel.bind('move', function(data) {
-				console.log(data["message"]);
+				url = (data["circle"]=="true") ? "circle.png" : "cross.png"
+				$("#box" + data["square"]).css("background-repeat", "no-repeat");
+				$("#box" + data["square"]).css("background-image", "url(" + url + ")");
 			});
 			$(document).ready(function(){
 				$.get("system.php", function(data){});
-				$.post("newuser.php", {"username": "testusername"}, function(data){alert(data)});
+				//$.post("newuser.php", {"username": "testusername"}, function(data){alert(data)});
+				$(".box").click(function(){
+					$.post("move.php", {"square": $(this).attr("data-square"), "circle": "true"}, function(data){
+						//TODO:  Error Handling
+					})
+					$(this).css("background-repeat", "no-repeat");
+					$(this).css("background-image", "url(circle.png)");
+				});
 			});
 		</script>
 	</head>
@@ -20,17 +30,17 @@
 		<h1>Tic Tac Toe</h1>
 		<table id="board">
 			<tr id="row1" class="row">
-				<td id="box1" class="box"></td>
-				<td id="box2" class="box"></td>
-				<td id="box3" class="box"></td>
+				<td id="box1" class="box" data-square="1"></td>
+				<td id="box2" class="box" data-square="2"></td>
+				<td id="box3" class="box" data-square="3"></td>
 			</tr><tr id="row2" class="row">
-				<td id="box4" class="box"></td>
-				<td id="box5" class="box"></td>
-				<td id="box6" class="box"></td>
+				<td id="box4" class="box" data-square="4"></td>
+				<td id="box5" class="box" data-square="5"></td>
+				<td id="box6" class="box" data-square="6"></td>
 			</tr><tr id="row3" class="row">
-				<td id="box7" class="box"></td>
-				<td id="box8" class="box"></td>
-				<td id="box9" class="box"></td>
+				<td id="box7" class="box" data-square="7"></td>
+				<td id="box8" class="box" data-square="8"></td>
+				<td id="box9" class="box" data-square="9"></td>
 			</tr>
 		</table>
 	</body>
