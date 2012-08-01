@@ -18,6 +18,7 @@
 				//$.post("newuser.php", {"username": "testusername"}, function(data){alert(data)});
 				$(".box").click(function(){
 					$.post("move.php", {"square": $(this).attr("data-square"), "circle": "true"}, function(data){
+						alert(data);
 						//TODO:  Error Handling
 					})
 					$(this).css("background-repeat", "no-repeat");
