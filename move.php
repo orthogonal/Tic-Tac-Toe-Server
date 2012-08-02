@@ -2,19 +2,24 @@
 	require("pusherkeys.php");
 	$square = $_POST["square"];
 	$circle = $_POST["circle"];
+	$gameauth = $_POST["gameauth"];
 	
 	require("dblogin.php");
 	mysql_connect($db_hostname,$db_username, $db_password) OR DIE (mysql_error());
 	mysql_select_db($db_database) or die(mysql_error());
 	
-	$query = "SELECT * FROM games WHERE id = 2";
+	$query = "SELECT * FROM games WHERE gameauth = '" . $gameauth . "'";
 	$result = mysql_query($query);
+	if (!$result){
+		alert("Error - invalid game");
+	}
 	$row = mysql_fetch_row($result);
 	$currentval = $row[intval($square)];
 	if ($currentval != 0)
 		echo "taken";
 	else{
-		$query = "UPDATE games SET `" . $square . "` = " . (($circle == "true") ? "1" : "2") . " WHERE id = 2";
+		$query = "UPDATE games SET `" . $square . "` = " . (($circle == "true") ? "1" : "2") . " WHERE gameauth = '" . $gameauth . "'";
+		echo $query;
 		$result = mysql_query($query) OR DIE(mysql_error());
 		$squares = array(array($row[1], $row[2], $row[3]), array($row[4], $row[5], $row[6]), array($row[7], $row[8], $row[9]));
 		$squares[intval(floor(intval($square) / 3))][((intval($square) - 1) % 3)] = (($circle == "true") ? "1" : "2");
